@@ -5,11 +5,8 @@ import numpy as np
 import streamlit as st
 from streamlit_option_menu import option_menu
 
-# Set path to models
-MODEL_DIR = os.path.expanduser("~/Downloads")
-
 # Load saved models
-diabetes_model = pickle.load(open(os.path.join(MODEL_DIR, "diabetes_model.sav"), 'rb'))
+diabetes_model = pickle.load(open("diabetes_model.sav", 'rb'))
 
 # Diabetes Prediction Page
 st.title("Diabetes Prediction")
