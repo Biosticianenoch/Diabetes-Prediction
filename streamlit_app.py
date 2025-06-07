@@ -1,6 +1,7 @@
 import pickle
 import streamlit as st
 from streamlit_option_menu import option_menu
+import pandas as pd
 import time
 
 # Load saved model
@@ -43,12 +44,12 @@ menu_style = {
     },
 }
 
-# Sidebar menu with custom styles & icons
+# Sidebar menu including FAQ
 with st.sidebar:
     selected = option_menu(
         menu_title="Navigation",
-        options=["Welcome", "Home", "Prediction", "Recommendations"],
-        icons=["house-door", "pencil-square", "activity", "card-text"],
+        options=["Welcome", "Home", "Prediction", "Recommendations", "FAQ"],
+        icons=["house-door", "pencil-square", "activity", "card-text", "question-circle"],
         menu_icon="cast",
         default_index=0,
         styles=menu_style,
@@ -58,27 +59,35 @@ with st.sidebar:
 def calculate_progress():
     count = 0
     total = 8  # total input fields
-    # count non-default values
-    if st.session_state.pregnancies > 0:
-        count += 1
-    if st.session_state.glucose > 0:
-        count += 1
-    if st.session_state.blood_pressure > 0:
-        count += 1
-    if st.session_state.skin_thickness > 0:
-        count += 1
-    if st.session_state.insulin > 0:
-        count += 1
-    if st.session_state.bmi > 0:
-        count += 1
-    if st.session_state.diabetes_pedigree > 0:
-        count += 1
-    if st.session_state.age > 1:
-        count += 1
+    if st.session_state.pregnancies > 0: count += 1
+    if st.session_state.glucose > 0: count += 1
+    if st.session_state.blood_pressure > 0: count += 1
+    if st.session_state.skin_thickness > 0: count += 1
+    if st.session_state.insulin > 0: count += 1
+    if st.session_state.bmi > 0: count += 1
+    if st.session_state.diabetes_pedigree > 0: count += 1
+    if st.session_state.age > 1: count += 1
     return int((count / total) * 100)
+
+# Style for main content frame
+frame_style = """
+    <style>
+    .frame {
+        border: 2px solid #1E90FF;
+        padding: 20px;
+        border-radius: 10px;
+        background-color: #f9faff;
+        box-shadow: 0 4px 8px rgba(30,144,255,0.1);
+        margin-bottom: 20px;
+    }
+    </style>
+"""
+
+st.markdown(frame_style, unsafe_allow_html=True)
 
 # --- WELCOME PAGE ---
 if selected == "Welcome":
+    st.markdown('<div class="frame">', unsafe_allow_html=True)
     st.title("👋 Welcome to the Diabetes Prediction App")
     st.markdown("""
     This app helps you estimate the likelihood of diabetes based on key health metrics.
@@ -87,13 +96,16 @@ if selected == "Welcome":
     1. Go to **Home** and enter your health details.
     2. Move to **Prediction** and click the button to get your test result.
     3. Visit **Recommendations** to see tailored health advice.
+    4. Check out the **FAQ** page for common questions.
     
     Stay healthy and informed! ❤️
     """)
     st.balloons()
+    st.markdown('</div>', unsafe_allow_html=True)
 
 # --- HOME PAGE: Inputs ---
 elif selected == "Home":
+    st.markdown('<div class="frame">', unsafe_allow_html=True)
     st.title("📝 Enter Your Details")
 
     st.progress(calculate_progress())
@@ -145,9 +157,11 @@ elif selected == "Home":
 
     st.markdown("---")
     st.info("Fill all fields to get the best prediction results.")
+    st.markdown('</div>', unsafe_allow_html=True)
 
 # --- PREDICTION PAGE ---
 elif selected == "Prediction":
+    st.markdown('<div class="frame">', unsafe_allow_html=True)
     st.title("🩺 Diabetes Prediction Test")
 
     if st.button("Run Diabetes Test"):
@@ -175,9 +189,11 @@ elif selected == "Prediction":
 
     st.markdown("---")
     st.info("Next, check the Recommendations page for advice.")
+    st.markdown('</div>', unsafe_allow_html=True)
 
 # --- RECOMMENDATIONS PAGE ---
 elif selected == "Recommendations":
+    st.markdown('<div class="frame">', unsafe_allow_html=True)
     st.title("📋 Recommendations")
 
     if st.session_state.prediction is None:
@@ -221,3 +237,42 @@ elif selected == "Recommendations":
 
         if st.session_state.diabetes_pedigree > 0.5:
             st.info("Family history may increase your risk. Adopt preventive lifestyle measures.")
+
+        # Export results
+        st.markdown("---")
+        st.subheader("📥 Export Your Results")
+
+        # Prepare data
+        results_dict = {
+            "Pregnancies": st.session_state.pregnancies,
+            "Glucose": st.session_state.glucose,
+            "Blood Pressure": st.session_state.blood_pressure,
+            "Skin Thickness": st.session_state.skin_thickness,
+            "Insulin": st.session_state.insulin,
+            "BMI": st.session_state.bmi,
+            "Diabetes Pedigree Function": st.session_state.diabetes_pedigree,
+            "Age": st.session_state.age,
+            "Diabetes Prediction": "Positive" if st.session_state.prediction == 1 else "Negative"
+        }
+        df_results = pd.DataFrame([results_dict])
+
+        csv = df_results.to_csv(index=False).encode('utf-8')
+        st.download_button(
+            label="Download Results as CSV",
+            data=csv,
+            file_name='diabetes_prediction_results.csv',
+            mime='text/csv'
+        )
+    st.markdown('</div>', unsafe_allow_html=True)
+
+# --- FAQ PAGE ---
+elif selected == "FAQ":
+    st.markdown('<div class="frame">', unsafe_allow_html=True)
+    st.title("❓ Frequently Asked Questions")
+
+    faq_data = {
+        "What is diabetes?": "Diabetes is a chronic condition that affects how your body turns food into energy, characterized by high blood sugar levels.",
+        "How accurate is this prediction?": "The model has been trained on historical data and provides an estimation. Always consult a healthcare professional for diagnosis.",
+        "What if I get a positive prediction?": "A positive result suggests you may be at risk. Please visit a healthcare provider for a thorough checkup.",
+        "Can lifestyle changes reduce my risk?": "Yes! Healthy diet, regular exercise, and maintaining a normal weight can significantly reduce your risk.",
+        "Is this app a substitute for medical advice?
