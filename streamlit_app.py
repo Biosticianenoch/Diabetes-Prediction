@@ -3,7 +3,7 @@ import numpy as np
 import streamlit as st
 
 # Load saved model
-diabetes_model = pickle.load(open("diabetes_model.p", 'rb'))
+diabetes_model = pickle.load(open("diabetes_model.sav", 'rb'))
 
 # Page config & CSS
 st.set_page_config(
