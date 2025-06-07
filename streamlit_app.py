@@ -274,6 +274,5 @@ elif selected == "FAQ":
         "What is diabetes?": "Diabetes is a chronic condition that affects how your body turns food into energy, characterized by high blood sugar levels.",
         "How accurate is this prediction?": "The model has been trained on historical data and provides an estimation. Always consult a healthcare professional for diagnosis.",
         "What if I get a positive prediction?": "A positive result suggests you may be at risk. Please visit a healthcare provider for a thorough checkup.",
-        "Can lifestyle changes reduce my risk?": "Yes! Healthy diet, regular exercise, and maintaining a normal weight can significantly reduce your risk.",
-        "Is this app a substitute for medical advice?"
+        "Can lifestyle changes reduce my risk?": "Yes! Healthy diet, regular exercise, and maintaining a normal weight can significantly reduce your risk."
     }
