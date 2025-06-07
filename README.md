@@ -106,7 +106,7 @@ pkl.dump(svm, open("diabetes_model.p", "wb"))
 
 **Enock Bereka**  
 📍 Kakamega, Kenya  
-📧 your-email@example.com  
+📧 your- [My Email](enochwafulah254@gmail.com)  
 🔗 [LinkedIn Profile](https://linkedin.com/in/enockbereka)
 
 ---
