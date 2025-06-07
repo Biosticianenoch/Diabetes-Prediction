@@ -276,3 +276,4 @@ elif selected == "FAQ":
         "What if I get a positive prediction?": "A positive result suggests you may be at risk. Please visit a healthcare provider for a thorough checkup.",
         "Can lifestyle changes reduce my risk?": "Yes! Healthy diet, regular exercise, and maintaining a normal weight can significantly reduce your risk.",
         "Is this app a substitute for medical advice?
+    }
