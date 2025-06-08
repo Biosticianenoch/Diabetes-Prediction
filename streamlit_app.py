@@ -5,7 +5,7 @@ import pandas as pd
 import time
 
 # Load saved model
-diabetes_model = pickle.load(open("diabetes_model.sav", 'rb'))
+diabetes_model = pickle.load(open("diabetes_model5.sav", 'rb'))
 
 # Page config
 st.set_page_config(page_title="Diabetes Prediction", page_icon="🩺", layout="centered")
